@@ -20,6 +20,8 @@
         'channel_id' => $channel->id,
     ]);
 @endphp
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
 
 <footer class="mt-9 bg-lightOrange max-sm:mt-10">
     <div class="flex justify-between gap-x-6 gap-y-8 p-[60px] max-1060:flex-col-reverse max-md:gap-5 max-md:p-8 max-sm:px-4 max-sm:py-5">
@@ -125,6 +127,35 @@
                     </x-shop::form>
                 </div>
             </div>
+ <div class="sticky top-6 z-50 flex gap-4 social-icons">
+    <!-- Facebook -->
+    <a href="https://www.facebook.com/yourprofile" target="_blank"
+       class="group relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center border border-gray-300 overflow-hidden rounded-md bg-transparent transition-colors duration-300 ease-in-out group-hover:bg-black"
+       aria-label="Facebook">
+        <span class="relative z-10 text-black transition-colors duration-300 ease-in-out group-hover:text-white">
+            <i class="fab fa-facebook-f text-base sm:text-lg md:text-xl"></i>
+        </span>
+    </a>
+
+    <!-- Instagram -->
+    <a href="https://www.instagram.com/yourprofile" target="_blank"
+       class="group relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center border border-gray-300 overflow-hidden rounded-md bg-transparent transition-colors duration-300 ease-in-out group-hover:bg-black"
+       aria-label="Instagram">
+        <span class="relative z-10 text-black transition-colors duration-300 ease-in-out group-hover:text-white">
+            <i class="fab fa-instagram text-base sm:text-lg md:text-xl"></i>
+        </span>
+    </a>
+
+    <!-- Pinterest -->
+    <a href="https://www.pinterest.com/yourprofile" target="_blank"
+       class="group relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center border border-gray-300 overflow-hidden rounded-md bg-transparent transition-colors duration-300 ease-in-out group-hover:bg-black"
+       aria-label="Pinterest">
+        <span class="relative z-10 text-black transition-colors duration-300 ease-in-out group-hover:text-white">
+            <i class="fab fa-pinterest-p text-base sm:text-lg md:text-xl"></i>
+        </span>
+    </a>
+</div>
+
         @endif
 
         {!! view_render_event('bagisto.shop.layout.footer.newsletter_subscription.after') !!}
