@@ -98,6 +98,12 @@
                 </a>
             @endif
 
+             @if (core()->getConfigData('customer.settings.wishlist.wishlist_option'))
+                            <a class="icon-heart inline-block cursor-pointer text-2xl" role="presentation" href="{{ route('shop.customers.account.wishlist.index') }}">
+
+                            </a>
+                        @endif
+
             {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.compare.after') !!}
 
             {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.mini_cart.before') !!}
