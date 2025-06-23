@@ -296,6 +296,13 @@
 
                                 {!! view_render_event('bagisto.shop.products.name.after', ['product' => $product]) !!}
 
+                                <!-- Stock Status Indicator -->
+                                <div class="mt-2 flex items-center">
+                                    <span class="inline-block h-3 w-3 rounded-full mr-2" 
+                                          :class="{'bg-green-500': isInStock, 'bg-red-500': !isInStock}"></span>
+                                    <span class="text-sm font-medium" v-text="isInStock ? 'In Stock' : 'Out of Stock'"></span>
+                                </div>
+
                                 <!-- Rating -->
                                 {!! view_render_event('bagisto.shop.products.rating.before', ['product' => $product]) !!}
 
@@ -348,6 +355,38 @@
                                 <p class="mt-6 text-lg text-zinc-500 max-sm:mt-1.5 max-sm:text-sm">
                                     {!! $product->short_description !!}
                                 </p>
+
+                                <!-- Pincode Availability Checker -->
+                                <div class="mt-6 border-t border-gray-200 pt-6">
+                                    <p class="text-base font-medium mb-2">Enter 6-digit pincode</p>
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex-1">
+                                            <input 
+                                                type="text" 
+                                                v-model="pincode" 
+                                                placeholder="e.g. 560001" 
+                                                class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                                @input="validatePincode"
+                                                maxlength="6"
+                                            >
+                                        </div>
+                                        <button 
+                                            type="button" 
+                                            @click="checkPincode" 
+                                            class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                            :disabled="pincode.length !== 6"
+                                            :class="{'opacity-50 cursor-not-allowed': pincode.length !== 6}"
+                                        >
+                                            Check
+                                        </button>
+                                    </div>
+                                    <div class="mt-2 text-sm" v-if="pincodeMessage">
+                                        <span :class="{'text-green-600': pincodeAvailable, 'text-red-600': !pincodeAvailable}">
+                                            @{{ pincodeMessage }}
+                                        </span>
+                                    </div>
+                                </div>
+
                                 <div class="w-full mx-auto pr-[90px] mt-[30px] max-[1180px]:px-5">
                                     <div class="grid grid-cols-3 gap-x-8 mt-4 max-w-max">
                                         @foreach ($customAttributeValues as $customAttributeValue)
@@ -426,7 +465,7 @@
                                             :title="trans('shop::app.products.view.add-to-cart')"
                                             :disabled="! $product->isSaleable(1)"
                                             ::loading="isStoring.addToCart"
-                                            ::disabled="isStoring.addToCart"
+                                            ::disabled="isStoring.addToCart || !isInStock"
                                             @click="is_buy_now=0;"
                                         />
 
@@ -447,7 +486,7 @@
                                             :disabled="! $product->isSaleable(1)"
                                             ::loading="isStoring.buyNow"
                                             @click="is_buy_now=1;"
-                                            ::disabled="isStoring.buyNow"
+                                            ::disabled="isStoring.buyNow || !isInStock"
                                         />
                                     @endif
 
@@ -501,9 +540,13 @@
 
                         isStoring: {
                             addToCart: false,
-
                             buyNow: false,
                         },
+                        
+                        isInStock: {{ $product->isSaleable(1) ? 'true' : 'false' }},
+                        pincode: '',
+                        pincodeMessage: '',
+                        pincodeAvailable: false
                     }
                 },
 
@@ -558,6 +601,47 @@
                         } else {
                             window.location.href = "{{ route('shop.customer.session.index')}}";
                         }
+                    },
+
+                    validatePincode() {
+                        // Remove any non-digit characters
+                        this.pincode = this.pincode.replace(/\D/g, '');
+                        
+                        // Truncate to 6 digits if longer
+                        if (this.pincode.length > 6) {
+                            this.pincode = this.pincode.substring(0, 6);
+                        }
+                        
+                        // Clear message when user is typing
+                        if (this.pincode.length !== 6) {
+                            this.pincodeMessage = '';
+                        }
+                    },
+                    
+                    checkPincode() {
+                        if (this.pincode.length !== 6) {
+                            this.pincodeMessage = 'Please enter a valid 6-digit pincode';
+                            this.pincodeAvailable = false;
+                            return;
+                        }
+
+                        // Here you would typically make an API call to check pincode availability
+                        // For demo purposes, we'll simulate a response
+                        this.pincodeMessage = 'Checking availability...';
+                        
+                        // Simulate API call with timeout
+                        setTimeout(() => {
+                            // This is just a simulation - replace with actual API call
+                            const availablePincodes = ['560001', '560002', '560003', '110001', '400001'];
+                            
+                            if (availablePincodes.includes(this.pincode)) {
+                                this.pincodeMessage = 'Delivery available to this pincode';
+                                this.pincodeAvailable = true;
+                            } else {
+                                this.pincodeMessage = 'Delivery not available to this pincode';
+                                this.pincodeAvailable = false;
+                            }
+                        }, 1000);
                     },
 
                     addToCompare(productId) {
@@ -674,4 +758,84 @@
             });
         </script>
     @endPushOnce
+
+    @push('styles')
+        <style>
+            /* Custom styling for the product page */
+            .product-title {
+                font-size: 2rem;
+                font-weight: 600;
+                color: #1a1a1a;
+                margin-bottom: 0.5rem;
+            }
+            
+            .product-price {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: #b8860b; /* Gold color for jewelry */
+                margin: 1rem 0;
+            }
+            
+            .product-attributes {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 1.5rem;
+                margin: 2rem 0;
+                padding: 1.5rem;
+                background: #f9f9f9;
+                border-radius: 8px;
+            }
+            
+            .attribute-label {
+                font-weight: 600;
+                color: #555;
+                margin-bottom: 0.25rem;
+            }
+            
+            .attribute-value {
+                font-weight: 500;
+                color: #222;
+            }
+            
+            .pincode-checker {
+                margin: 2rem 0;
+                padding: 1.5rem;
+                background: #f5f5f5;
+                border-radius: 8px;
+            }
+            
+            .stock-status {
+                display: inline-flex;
+                align-items: center;
+                padding: 0.25rem 0.5rem;
+                border-radius: 4px;
+                font-weight: 500;
+                margin-bottom: 1rem;
+            }
+            
+            .in-stock {
+                background-color: #e6f7ee;
+                color: #10b981;
+            }
+            
+            .out-of-stock {
+                background-color: #fee2e2;
+                color: #ef4444;
+            }
+            
+            @media (max-width: 768px) {
+                .product-title {
+                    font-size: 1.5rem;
+                }
+                
+                .product-price {
+                    font-size: 1.4rem;
+                }
+                
+                .product-attributes {
+                    grid-template-columns: 1fr 1fr;
+                }
+            }
+        </style>
+    @endpush
 </x-shop::layouts>
