@@ -270,61 +270,7 @@
             class="flex items-center"
             v-else-if="'{{ core()->getConfigData('general.design.categories.category_view') }}' !== 'sidebar'"
         >
-          <!-- Static Category: Shop By -->
-            <div class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue">
-            <!-- Trigger -->
-            <a href="#" class="inline-block px-5 uppercase">
-                Shop By
-            </a>
-
-            <!-- Dropdown -->
-            <div
-                class="pointer-events-none absolute top-[78px] z-[1] max-h-[580px] w-max max-w-[1260px] translate-y-1 overflow-auto overflow-x-auto border border-b-0 border-l-0 border-r-0 border-t border-[#F3F3F3] bg-white p-2 opacity-0 shadow-[0_6px_6px_1px_rgba(0,0,0,.3)] transition duration-300 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in"
-            >
-                <div class="flex justify-between gap-16">
-                
-                <!-- Featured Brands -->
-                <div class="min-w-[200px]">
-                    <p class="mb-4 text-xs font-bold uppercase text-gray-500 tracking-wider">Category</p>
-                    <ul class="space-y-3 text-sm text-gray-800">
-                    <li><a href="#" class="hover:text-navyBlue">Shop All</a></li>
-                    <li><a href="#" class="hover:text-navyBlue">All Gifts</a></li>
-                    <li><a href="#" class="hover:text-navyBlue">Earrings</a></li>
-                    <li><a href="#" class="hover:text-navyBlue">Rings</a></li>
-                    <li><a href="#" class="hover:text-navyBlue">Necklaces</a></li>
-                    <li><a href="#" class="hover:text-navyBlue">Necklaces</a></li>
-                    <li><a href="#" class="hover:text-navyBlue">Bracelets</a></li>
-                    </ul>
-                </div>
-
-                <!-- Shop By Country -->
-                <div class="min-w-[200px]">
-                    <p class="mb-4 text-xs font-bold uppercase text-gray-500 tracking-wider">Featured</p>
-                    <ul class="space-y-3 text-sm text-gray-800">
-                    <li><a href="#" class="hover:text-navyBlue">Now Trending</a></li> 
-                    <li><a href="#" class="hover:text-navyBlue">Back In Stock</a></li>
-                    <li><a href="#" class="hover:text-navyBlue">Leaving Soon</a></li>
-                    <li><a href="#" class="hover:text-navyBlue">Edits</a></li>
-                    </ul>
-                </div>
-
-                <!-- New At Tanzire -->
-                <div class="min-w-[200px]">
-                    <p class="mb-4 text-xs font-bold uppercase text-gray-500 tracking-wider">New Collections</p>
-                    <ul class="space-y-3 text-sm text-gray-800">
-                    <li><a href="#" class="hover:text-navyBlue">Astrid & Miyu</a></li>
-                    <li><a href="#" class="hover:text-navyBlue">Misho</a></li>
-                    <li><a href="#" class="hover:text-navyBlue">Missoma</a></li>
-                    <li><a href="#" class="hover:text-navyBlue">Biko</a></li>
-                    <li><a href="#" class="hover:text-navyBlue">Shyla</a></li>
-                    <li><a href="#" class="hover:text-navyBlue">Shashi</a></li>
-                    </ul>
-                </div>
-                </div>
-            </div>
-            </div>
-
-    
+        
 
             <!-- Static Category: New In -->
             <div
@@ -336,65 +282,123 @@
                     </a>
                 </span>
             </div>
-
-            <!-- Static Category: Best Sellers -->
             <div
-                class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
-            >
-                <span>
-                    <a href="/best-sellers" class="inline-block px-5 uppercase">
-                        Best Sellers
-                    </a>
-                </span>
-            </div>
-            <div
-                class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
-                v-for="category in categories"
-            >
-                <span>
-                    <a
-                        :href="category.url"
-                        class="inline-block px-5 uppercase"
-                    >
-                        @{{ category.name }}
-                    </a>
-                </span>
+    class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
+    v-for="category in categories"
+>
+    <span>
+        <a
+            :href="category.url"
+            class="inline-block px-5 uppercase"
+        >
+            @{{ category.name }}
+        </a>
+    </span>
 
-                <div
-                    class="pointer-events-none absolute top-[78px] z-[1] max-h-[580px] w-max max-w-[1260px] translate-y-1 overflow-auto overflow-x-auto border border-b-0 border-l-0 border-r-0 border-t border-[#F3F3F3] bg-white p-9 opacity-0 shadow-[0_6px_6px_1px_rgba(0,0,0,.3)] transition duration-300 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in ltr:-left-9 rtl:-right-9"
-                    v-if="category.children && category.children.length"
-                >
-                    <div class="flex justify-between gap-x-[70px]">
-                        <div
-                            class="grid w-full min-w-max max-w-[150px] flex-auto grid-cols-[1fr] content-start gap-5"
-                            v-for="pairCategoryChildren in pairCategoryChildren(category)"
+    <div
+        class="pointer-events-none fixed left-0 right-0 z-[1] w-full bg-white opacity-0 shadow-[0_6px_6px_1px_rgba(0,0,0,.3)] transition duration-300 ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in"
+        style="top: calc(122px + 2rem);"
+        v-if="category.children && category.children.length"
+    >
+        <!-- Added proper padding container -->
+        <!-- <div class="max-w-7xl mx-auto px-8 py-8"> -->
+            <div class="flex  p-8 m-4 justify-center gap-x-[30px]">
+            <!-- Shop All Section - Left Side -->
+            <div class="w-full min-w-max max-w-[200px] pl-10 flex-auto">
+                <p class="font-bold text-lg text-navyBlue mb-4 uppercase">
+                    <a :href="category.url">
+                        Shop All @{{ category.name }}
+                    </a>
+                </p>
+                
+                <!-- Categories List -->
+                <div class="grid grid-cols-[1fr] content-start gap-2">
+                    <template v-for="secondLevelCategory in category.children">
+                        <p class="text-sm font-medium text-zinc-500">
+                            <a :href="secondLevelCategory.url">
+                                @{{ secondLevelCategory.name }}
+                            </a>
+                        </p>
+
+                        <ul
+                            class="grid grid-cols-[1fr] gap-3 mb-4"
+                            v-if="secondLevelCategory.children && secondLevelCategory.children.length"
                         >
-                            <template v-for="secondLevelCategory in pairCategoryChildren">
-                                <p class="font-medium text-navyBlue">
-                                    <a :href="secondLevelCategory.url">
-                                        @{{ secondLevelCategory.name }}
-                                    </a>
-                                </p>
-
-                                <ul
-                                    class="grid grid-cols-[1fr] gap-3"
-                                    v-if="secondLevelCategory.children && secondLevelCategory.children.length"
-                                >
-                                    <li
-                                        class="text-sm font-medium text-zinc-500"
-                                        v-for="thirdLevelCategory in secondLevelCategory.children"
-                                    >
-                                        <a :href="thirdLevelCategory.url">
-                                            @{{ thirdLevelCategory.name }}
-                                        </a>
-                                    </li>
-                                </ul>
-                            </template>
-                        </div>
-                    </div>
+                            <li
+                                class="text-sm font-medium text-zinc-500"
+                                v-for="thirdLevelCategory in secondLevelCategory.children"
+                            >
+                                <a :href="thirdLevelCategory.url">
+                                    @{{ thirdLevelCategory.name }}
+                                </a>
+                            </li>
+                        </ul>
+                    </template>
                 </div>
             </div>
-        </div>
+
+            <!-- Shop By Price - Center -->
+            <div class="w-full min-w-max max-w-[200px] flex-auto">
+                <p class="font-bold text-lg text-navyBlue mb-4 uppercase">
+                    Shop By Price
+                </p>
+                
+                <ul class="grid grid-cols-[1fr] gap-3">
+                    <li class="text-sm font-medium text-zinc-500">
+                        <a :href="`/@{{ category.name }}?price=0-1500`">
+                            Under ₹1,500
+                        </a>
+                    </li>
+                    <li class="text-sm font-medium text-zinc-500">
+                        <a :href="`/@{{ category.name }}?price=1500-5000`">
+                            ₹1,500 - ₹5,000
+                        </a>
+                    </li>
+                    <li class="text-sm font-medium text-zinc-500">
+                        <a :href="`/@{{ category.name }}?price=5000-10000`">
+                            ₹5,000 - ₹10,000
+                        </a>
+                    </li>
+                    <li class="text-sm font-medium text-zinc-500">
+                        <a :href="`/@{{ category.name }}?price=10000-above`">
+                            Above ₹10,000
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Shop By Style - Right Side -->
+            <div class="w-full min-w-max max-w-[200px] flex-auto">
+                <p class="font-bold text-lg text-navyBlue mb-4 uppercase">
+                    Shop By Style
+                </p>
+                
+                <ul class="grid grid-cols-[1fr] gap-3">
+                    <li class="text-sm font-medium text-zinc-500">
+                        <a :href="`/@{{ category.name }}?style=everyday`">
+                            Everyday
+                        </a>
+                    </li>
+                    <li class="text-sm font-medium text-zinc-500">
+                        <a :href="`/@{{ category.name }}?style=office`">
+                            Office
+                        </a>
+                    </li>
+                    <li class="text-sm font-medium text-zinc-500">
+                        <a :href="`/@{{ category.name }}?style=party`">
+                            Party
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+</div>
+    </div>
+</div>
+<!-- </div> -->
+</div>
+     
 
         <!-- Sidebar category layout -->
         <div v-else>
