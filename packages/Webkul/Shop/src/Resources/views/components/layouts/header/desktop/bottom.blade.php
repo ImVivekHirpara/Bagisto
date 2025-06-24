@@ -1,4 +1,13 @@
+
+
+
 {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.before') !!}
+<div id="topbar-message" >
+    <topbar-message></topbar-message>
+</div>
+
+
+
 
 <div class="flex min-h-[78px] w-full justify-between border border-b border-l-0 border-r-0 border-t-0 px-[60px] max-1180:px-8">
     <!--
@@ -297,7 +306,7 @@
 
     <div
         class="pointer-events-none fixed left-0 right-0 z-[1] w-full bg-white opacity-0 shadow-[0_6px_6px_1px_rgba(0,0,0,.3)] transition duration-300 ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in"
-        style="top: calc(122px + 2rem);"
+        style="top: calc(170px + 2rem);"
         v-if="category.children && category.children.length"
     >
         <!-- Added proper padding container -->
@@ -345,22 +354,22 @@
                 
                 <ul class="grid grid-cols-[1fr] gap-3">
                     <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`/@{{ category.name }}?price=0-1500`">
+                        <a :href="`${category.url}?price=0%2C1500`">
                             Under ₹1,500
                         </a>
                     </li>
                     <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`/@{{ category.name }}?price=1500-5000`">
+                        <a :href="`${category.url}?price=1500%2C5000`">
                             ₹1,500 - ₹5,000
                         </a>
                     </li>
                     <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`/@{{ category.name }}?price=5000-10000`">
+                        <a :href="`${category.url}?price=5000%2C10000`">
                             ₹5,000 - ₹10,000
                         </a>
                     </li>
                     <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`/@{{ category.name }}?price=10000-above`">
+                        <a :href="`${category.url}?price=10000%2C99999999`">
                             Above ₹10,000
                         </a>
                     </li>
@@ -660,4 +669,85 @@
         });
     </script>
 @endPushOnce
+
+
+@pushOnce('scripts')
+<script type="text/x-template" id="topbar-message-template">
+<div class="w-screen bg-black text-white py-3 px-6">
+    <div class="w-[500px] mx-auto flex items-center justify-center relative py-6">
+        <!-- Left Arrow -->
+        <span 
+            @click="prev"
+            class="absolute left-0 cursor-pointer hover:text-gray-400 select-none text-lg"
+        >
+            &#8592;
+        </span>
+
+        <!-- Animated Message -->
+        <transition
+            name="fade"
+            mode="out-in"
+            enter-active-class="transition duration-300 ease-out"
+            leave-active-class="transition duration-300 ease-in"
+            enter-from-class="opacity-0 translate-y-1"
+            enter-to-class="opacity-100 translate-y-0"
+            leave-from-class="opacity-100 translate-y-0"
+            leave-to-class="opacity-0 -translate-y-1"
+        >
+            <span 
+                :key="currentMessage" 
+                class="text-center text-base font-medium text-white w-full"
+            >
+                @{{ currentMessage }}
+            </span>
+        </transition>
+
+        <!-- Right Arrow -->
+        <span 
+            @click="next"
+            class="absolute right-0 cursor-pointer hover:text-gray-400 select-none text-lg"
+        >
+            &#8594;
+        </span>
+
+    </div>
+</div>
+
+
+
+</script>
+
+<script type="module">
+    app.component('topbar-message', {
+        template: '#topbar-message-template',
+        data() {
+            return {
+                messages: [
+                    'COD available within India',
+                    'Free International Shipping above $150',
+                    'Free Shipping all over India',
+                ],
+                index: 0,
+            };
+        },
+        computed: {
+            currentMessage() {
+                return this.messages[this.index];
+            }
+        },
+        methods: {
+            next() {
+                this.index = (this.index + 1) % this.messages.length;
+            },
+            prev() {
+                this.index = (this.index - 1 + this.messages.length) % this.messages.length;
+            }
+        }
+    });
+</script>
+@endPushOnce
+
+
+
+
 {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.after') !!}
