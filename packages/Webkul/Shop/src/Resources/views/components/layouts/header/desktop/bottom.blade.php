@@ -271,9 +271,9 @@
             v-else-if="'{{ core()->getConfigData('general.design.categories.category_view') }}' !== 'sidebar'"
         >
           <!-- Static Category: Shop By -->
-            <div class="relative group flex h-[77px] items-center border-b-4 border-transparent hover:border-navyBlue transition-colors duration-200">
+            <div class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue">
             <!-- Trigger -->
-            <a href="#" class="inline-block px-6 py-2 text-sm font-semibold uppercase text-gray-800 hover:text-navyBlue transition-colors duration-200">
+            <a href="#" class="inline-block px-5 uppercase">
                 Shop By
             </a>
 
