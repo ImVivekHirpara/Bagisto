@@ -673,48 +673,44 @@
 
 @pushOnce('scripts')
 <script type="text/x-template" id="topbar-message-template">
-<div class="w-screen bg-black text-white py-3 px-6">
-    <div class="w-[500px] mx-auto flex items-center justify-center relative py-6">
-        <!-- Left Arrow -->
-        <span 
-            @click="prev"
-            class="absolute left-0 cursor-pointer hover:text-gray-400 select-none text-lg"
-        >
-            &#8592;
-        </span>
-
-        <!-- Animated Message -->
-        <transition
-            name="fade"
-            mode="out-in"
-            enter-active-class="transition duration-300 ease-out"
-            leave-active-class="transition duration-300 ease-in"
-            enter-from-class="opacity-0 translate-y-1"
-            enter-to-class="opacity-100 translate-y-0"
-            leave-from-class="opacity-100 translate-y-0"
-            leave-to-class="opacity-0 -translate-y-1"
-        >
+    <div class="w-screen bg-black text-white py-3 px-6">
+        <div class="w-[500px] mx-auto flex items-center justify-center relative py-6">
+            <!-- Left Arrow -->
             <span 
-                :key="currentMessage" 
-                class="text-center text-base font-medium text-white w-full"
+                @click="prev"
+                class="absolute left-0 cursor-pointer hover:text-gray-400 select-none text-lg"
             >
-                @{{ currentMessage }}
+                &#8592;
             </span>
-        </transition>
 
-        <!-- Right Arrow -->
-        <span 
-            @click="next"
-            class="absolute right-0 cursor-pointer hover:text-gray-400 select-none text-lg"
-        >
-            &#8594;
-        </span>
+            <!-- Animated Message -->
+            <transition
+                name="fade"
+                mode="out-in"
+                enter-active-class="transition duration-300 ease-out"
+                leave-active-class="transition duration-300 ease-in"
+                enter-from-class="opacity-0 translate-y-1"
+                enter-to-class="opacity-100 translate-y-0"
+                leave-from-class="opacity-100 translate-y-0"
+                leave-to-class="opacity-0 -translate-y-1"
+            >
+                <span 
+                    :key="currentMessage" 
+                    class="text-center text-base font-medium text-white w-full"
+                >
+                    @{{ currentMessage }}
+                </span>
+            </transition>
 
+            <!-- Right Arrow -->
+            <span 
+                @click="next"
+                class="absolute right-0 cursor-pointer hover:text-gray-400 select-none text-lg"
+            >
+                &#8594;
+            </span>
+        </div>
     </div>
-</div>
-
-
-
 </script>
 
 <script type="module">
@@ -728,6 +724,7 @@
                     'Free Shipping all over India',
                 ],
                 index: 0,
+                intervalId: null,
             };
         },
         computed: {
@@ -741,11 +738,24 @@
             },
             prev() {
                 this.index = (this.index - 1 + this.messages.length) % this.messages.length;
+            },
+            startAutoSlide() {
+                this.intervalId = setInterval(this.next, 3000); // Every 5 seconds
+            },
+            stopAutoSlide() {
+                if (this.intervalId) clearInterval(this.intervalId);
             }
+        },
+        mounted() {
+            this.startAutoSlide();
+        },
+        beforeUnmount() {
+            this.stopAutoSlide();
         }
     });
 </script>
 @endPushOnce
+
 
 
 
