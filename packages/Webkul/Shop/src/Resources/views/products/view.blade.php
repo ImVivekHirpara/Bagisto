@@ -357,33 +357,89 @@
                                 </p>
 
                                 <!-- Pincode Availability Checker -->
-                                <div class="mt-6 border-t border-gray-200 pt-6">
-                                    <p class="text-base font-medium mb-2">Enter 6-digit pincode</p>
-                                    <div class="flex items-center gap-2">
-                                        <div class="flex-1">
-                                            <input 
-                                                type="text" 
-                                                v-model="pincode" 
-                                                placeholder="e.g. 560001" 
-                                                class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                                @input="validatePincode"
-                                                maxlength="6"
-                                            >
+                                <div class="mt-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100 shadow-sm">
+                                    <div class="flex items-start gap-3 mb-4">
+                                        <div class="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            </svg>
                                         </div>
-                                        <button 
-                                            type="button" 
-                                            @click="checkPincode" 
-                                            class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                            :disabled="pincode.length !== 6"
-                                            :class="{'opacity-50 cursor-not-allowed': pincode.length !== 6}"
-                                        >
-                                            Check
-                                        </button>
+                                        <div class="flex-1">
+                                            <h3 class="text-lg font-semibold text-gray-900 mb-1">Check Delivery Availability</h3>
+                                            <p class="text-sm text-gray-600">Enter your pincode to check if we deliver to your area</p>
+                                        </div>
                                     </div>
-                                    <div class="mt-2 text-sm" v-if="pincodeMessage">
-                                        <span :class="{'text-green-600': pincodeAvailable, 'text-red-600': !pincodeAvailable}">
-                                            @{{ pincodeMessage }}
-                                        </span>
+
+                                    <div class="space-y-4">
+                                        <!-- Pincode Input Section -->
+                                        <div class="flex gap-3">
+                                            <div class="flex-1 relative">
+                                                <input 
+                                                    type="text" 
+                                                    v-model="pincode" 
+                                                    placeholder="Enter 6-digit pincode (e.g. 560001)" 
+                                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 placeholder-gray-400"
+                                                    @input="validatePincode"
+                                                    @keypress.enter="checkPincode"
+                                                    maxlength="6"
+                                                >
+                                            </div>
+                                            <button 
+                                                type="button" 
+                                                @click="checkPincode" 
+                                                class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600"
+                                                :disabled="pincode.length !== 6 || isCheckingPincode"
+                                            >
+                                                <span v-if="!isCheckingPincode" class="flex items-center gap-2">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                                    </svg>
+                                                    Check
+                                                </span>
+                                                <span v-else class="flex items-center gap-2">
+                                                    <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                    </svg>
+                                                    Checking...
+                                                </span>
+                                            </button>
+                                        </div>
+
+                                        <!-- Results Section -->
+                                        <div v-if="pincodeMessage" class="transition-all duration-300 ease-in-out">
+                                            <!-- Success Message -->
+                                            <div v-if="pincodeAvailable" class="p-4 bg-green-50 border border-green-200 rounded-lg">
+                                                <div class="flex items-start gap-3">
+                                                    <div class="flex-shrink-0 w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="flex-1">
+                                                        <h4 class="text-sm font-semibold text-green-800 mb-1">Great! We deliver to your area</h4>
+                                                        <p class="text-sm text-green-700">@{{ pincodeMessage }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Error Message -->
+                                            <div v-else class="p-4 bg-red-50 border border-red-200 rounded-lg">
+                                                <div class="flex items-start gap-3">
+                                                    <div class="flex-shrink-0 w-6 h-6 bg-red-100 rounded-full flex items-center justify-center">
+                                                        <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="flex-1">
+                                                        <h4 class="text-sm font-semibold text-red-800 mb-1">Sorry, we don't deliver here yet</h4>
+                                                        <p class="text-sm text-red-700">@{{ pincodeMessage }}</p>
+                                                        <p class="text-sm text-red-600 mt-2">We're expanding our delivery network. Check back soon!</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -546,7 +602,8 @@
                         isInStock: {{ $product->isSaleable(1) ? 'true' : 'false' }},
                         pincode: '',
                         pincodeMessage: '',
-                        pincodeAvailable: false
+                        pincodeAvailable: false,
+                        isCheckingPincode: false,
                     }
                 },
 
@@ -615,6 +672,7 @@
                         // Clear message when user is typing
                         if (this.pincode.length !== 6) {
                             this.pincodeMessage = '';
+                            this.pincodeAvailable = false;
                         }
                     },
                     
@@ -625,23 +683,38 @@
                             return;
                         }
 
-                        // Here you would typically make an API call to check pincode availability
-                        // For demo purposes, we'll simulate a response
-                        this.pincodeMessage = 'Checking availability...';
-                        
-                        // Simulate API call with timeout
+                    this.isCheckingPincode = true;
+                    this.pincodeMessage = '';
+        
+                        // Simulate API call with realistic delay
                         setTimeout(() => {
-                            // This is just a simulation - replace with actual API call
-                            const availablePincodes = ['560001', '560002', '560003', '110001', '400001'];
+                            // Extended list of available pincodes for demo
+                            const availablePincodes = [
+                                '560001', '560002', '560003', '560004', '560005', // Bangalore
+                                '110001', '110002', '110003', '110004', '110005', // Delhi
+                                '400001', '400002', '400003', '400004', '400005', // Mumbai
+                                '600001', '600002', '600003', '600004', '600005', // Chennai
+                                '700001', '700002', '700003', '700004', '700005', // Kolkata
+                                '380001', '380002', '380003', '380004', '380005', // Ahmedabad
+                            ];
                             
                             if (availablePincodes.includes(this.pincode)) {
-                                this.pincodeMessage = 'Delivery available to this pincode';
+                                this.pincodeMessage = `Delivery available to ${this.pincode}`;
                                 this.pincodeAvailable = true;
                             } else {
-                                this.pincodeMessage = 'Delivery not available to this pincode';
+                                this.pincodeMessage = `Sorry, delivery not available to ${this.pincode}`;
                                 this.pincodeAvailable = false;
                             }
-                        }, 1000);
+                            this.isCheckingPincode = false;
+                        }, 1500);
+                    },
+
+                    // Method to reset pincode checker
+                    resetPincodeChecker() {
+                        this.pincode = '';
+                        this.pincodeMessage = '';
+                        this.pincodeAvailable = false;
+                        this.isCheckingPincode = false;
                     },
 
                     addToCompare(productId) {
@@ -836,6 +909,63 @@
                     grid-template-columns: 1fr 1fr;
                 }
             }
+
+            /* Styling for Pincode section */
+            .animate-bounce {
+                    animation: bounce 1s infinite;
+                }
+
+                @keyframes bounce {
+                    0%, 20%, 53%, 80%, 100% {
+                        transform: translate3d(0,0,0);
+                    }
+                    40%, 43% {
+                        transform: translate3d(0, -8px, 0);
+                    }
+                    70% {
+                        transform: translate3d(0, -4px, 0);
+                    }
+                    90% {
+                        transform: translate3d(0, -2px, 0);
+                    }
+                }
+
+                .animate-pulse {
+                    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+                }
+
+                @keyframes pulse {
+                    0%, 100% {
+                        opacity: 1;
+                    }
+                    50% {
+                        opacity: .5;
+                    }
+                }
+
+                .pincode-checker-enhanced {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.pincode-input-focus:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    border-color: #3b82f6;
+}
+
+.delivery-option-card {
+    transition: all 0.2s ease-in-out;
+}
+
+.delivery-option-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 640px) {
+    .quick-pincode-buttons {
+        justify-content: center;
+    }
+}
         </style>
     @endpush
 </x-shop::layouts>
