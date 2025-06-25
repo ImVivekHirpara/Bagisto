@@ -1,28 +1,26 @@
 
 
-
-{!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.before') !!}
 <div id="topbar-message" >
     <topbar-message></topbar-message>
 </div>
+{!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.before') !!}
 
 
 
 
-<div class="flex min-h-[78px] w-full justify-between border border-b border-l-0 border-r-0 border-t-0 px-[60px] max-1180:px-8">
+
+<div class="flex min-h-[78px] w-full justify-between border border-b border-l-0 border-r-0 border-t-0 px-[60px] max-1180:px-8 relative">
     <!--
         This section will provide categories for the first, second, and third levels. If
         additional levels are required, users can customize them according to their needs.
     -->
-    <!-- Left Navigation Section -->
-    
-
-    <!-- Center Search Bar Section -->
-    <div class="flex items-center gap-x-10 max-[1180px]:gap-x-5">
+  <!-- Left Search Bar Section -->
+    <!-- Left Search Bar Section -->
+    <div class="flex items-center flex-1 max-w-[445px]">
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.search_bar.before') !!}
-
+ 
         <!-- Search Bar Container -->
-        <div class="relative w-full max-w-[445px]">
+        <div class="relative w-full">
             <form
                 action="{{ route('shop.search.index') }}"
                 class="flex w-full items-center"
@@ -34,9 +32,9 @@
                 >
                     @lang('shop::app.components.layouts.header.desktop.bottom.search')
                 </label>
-
+ 
                 <div class="icon-search pointer-events-none absolute top-2.5 flex items-center text-xl ltr:left-3 rtl:right-3"></div>
-
+ 
                 <input
                     type="text"
                     name="query"
@@ -50,26 +48,27 @@
                     pattern="[^\\]+"
                     required
                 >
-
+ 
                 <button
                     type="submit"
                     class="hidden"
                     aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.submit')"
                 >
                 </button>
-
+ 
                 @if (core()->getConfigData('catalog.products.settings.image_search'))
                     @include('shop::search.images.index')
                 @endif
             </form>
         </div>
-
+ 
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.search_bar.after') !!}
     </div>
-
-    <div class="flex items-center justify-center flex-1 px-8">
+ 
+    <!-- Center Logo Section -->
+    <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.before') !!}
-
+ 
         <a
             href="{{ route('shop.home.index') }}"
             aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.bagisto')"
@@ -81,11 +80,8 @@
                 alt="{{ config('app.name') }}"
             >
         </a>
-
+ 
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.after') !!}
-
-        
-
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.category.after') !!}
     </div>
 
