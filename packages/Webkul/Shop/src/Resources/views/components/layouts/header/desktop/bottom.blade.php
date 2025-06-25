@@ -219,6 +219,13 @@
     </div>
 </div>
 
+@php
+    use Webkul\Category\Models\Category;
+
+    // Get all root categories except the main "Root" one (which is parent_id = 0)
+    $rootCategories = Category::where('parent_id', 1)->where('status', 1)->with('children')->get();
+@endphp
+
 @pushOnce('scripts')
     <script
         type="text/x-template"
@@ -251,134 +258,281 @@
             v-else-if="'{{ core()->getConfigData('general.design.categories.category_view') }}' !== 'sidebar'"
         >
         
-
-            <!-- Static Category: New In -->
-            <div
-                class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
-            >
+            <!-- Static Category: New In with Dropdown -->
+            <div class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue">
                 <span>
-                    <a href="/new-in" class="inline-block px-5 uppercase">
-                        New In
+                    <a href="/search?sort=name-asc" class="inline-block px-5 uppercase">
+                        SHOP BY
                     </a>
                 </span>
-            </div>
-            <div
-    class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
-    v-for="category in categories"
->
-    <span>
-        <a
-            :href="category.url"
-            class="inline-block px-5 uppercase"
-        >
-            @{{ category.name }}
-        </a>
-    </span>
 
-    <div
-        class="pointer-events-none fixed left-0 right-0 z-[1] w-full bg-white opacity-0 shadow-[0_6px_6px_1px_rgba(0,0,0,.3)] transition duration-300 ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in"
-        style="top: calc(172px);"
-        v-if="category.children && category.children.length"
-    >
-        <!-- Added proper padding container -->
-        <!-- <div class="max-w-7xl mx-auto px-8 py-8"> -->
-            <div class="flex  p-8 m-4 justify-center gap-x-[30px]">
-            <!-- Shop All Section - Left Side -->
-            <div class="w-full min-w-max max-w-[200px] pl-10 flex-auto">
-                <p class="font-bold text-lg text-navyBlue mb-4 uppercase">
-                    <a :href="category.url">
-                        Shop All @{{ category.name }}
-                    </a>
-                </p>
                 
-                <!-- Categories List -->
-                <div class="grid grid-cols-[1fr] content-start gap-2">
-                    <template v-for="secondLevelCategory in category.children">
-                        <p class="text-sm font-medium text-zinc-500">
-                            <a :href="secondLevelCategory.url">
-                                @{{ secondLevelCategory.name }}
-                            </a>
-                        </p>
-
-                        <ul
-                            class="grid grid-cols-[1fr] gap-3 mb-4"
-                            v-if="secondLevelCategory.children && secondLevelCategory.children.length"
-                        >
-                            <li
-                                class="text-sm font-medium text-zinc-500"
-                                v-for="thirdLevelCategory in secondLevelCategory.children"
-                            >
-                                <a :href="thirdLevelCategory.url">
-                                    @{{ thirdLevelCategory.name }}
+                <!-- SHOP BY Dropdown -->
+                <div class="pointer-events-none fixed left-0 right-0 z-[1] w-full bg-white opacity-0 shadow-[0_6px_6px_1px_rgba(0,0,0,.3)] transition duration-300 ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in"
+                     style="top: calc(172px);">
+                    <div class="flex p-8 m-4 justify-center gap-x-[30px]">
+                        
+                        <!-- Category Section - Left Side -->
+                        <div class="w-full min-w-max max-w-[200px] pl-10 flex-auto">
+                            <p class="font-bold text-md text-navyBlue mb-4 uppercase">
+                                <a href="/search?sort=name-desc">
+                                    Shop All
                                 </a>
-                            </li>
-                        </ul>
-                    </template>
+                            </p>
+                            
+                            <ul class="grid grid-cols-[1fr] gap-3">
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a href="/new-in/all-gifts">All Gifts</a>
+                                </li>
+                                @foreach ($rootCategories as $root)
+                                    @foreach ($root->children as $child)
+                                        <li>
+                                            <a href="{{ $child->url }}" class="text-sm font-medium text-zinc-500">
+                                                {{ $child->name }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                @endforeach
+                            </ul>
+                        </div>
+
+                        <!-- Featured Section - Right Side -->
+                        <div class="w-full min-w-max max-w-[200px] flex-auto">
+                            <p class="font-bold text-md text-navyBlue mb-4 uppercase">
+                                Featured
+                            </p>
+                            
+                            <ul class="grid grid-cols-[1fr] gap-3">
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a href="/featured/back-in-stock">Back In Stock</a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a href="/featured/leaving-soon">Leaving Soon</a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a href="/featured/edits">Edits</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Collections Section - Center -->
+                        <div class="w-full min-w-max max-w-[200px] flex-auto">
+                            <p class="font-bold text-md text-navyBlue mb-4 uppercase">
+                                Collections
+                            </p>
+                            
+                            <ul class="grid grid-cols-[1fr] gap-3">
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a href="/collections/signature">Signature Collection</a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a href="/collections/limited-edition">Limited Edition</a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a href="/collections/seasonal">Seasonal</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
-            <!-- Shop By Price - Center -->
-            <div class="w-full min-w-max max-w-[200px] flex-auto">
-                <p class="font-bold text-lg text-navyBlue mb-4 uppercase">
-                    Shop By Price
-                </p>
+            <!-- Static Category: Best Seller with Dropdown -->
+            <div class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue">
+                <span>
+                    <a href="/best_seller=1&sort=name-asc" class="inline-block px-5 uppercase">
+                        BEST SEllER
+                    </a>
+                </span>
+
                 
-                <ul class="grid grid-cols-[1fr] gap-3">
-                    <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`/@{{ category.name }}?price=0-1500`">
-                            Under ₹1,500
-                        </a>
-                    </li>
-                    <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`/@{{ category.name }}?price=1500-5000`">
-                            ₹1,500 - ₹5,000
-                        </a>
-                    </li>
-                    <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`/@{{ category.name }}?price=5000-10000`">
-                            ₹5,000 - ₹10,000
-                        </a>
-                    </li>
-                    <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`/@{{ category.name }}?price=10000-above`">
-                            Above ₹10,000
-                        </a>
-                    </li>
-                </ul>
+                <!-- SHOP BY Dropdown -->
+                <div class="pointer-events-none fixed left-0 right-0 z-[1] w-full bg-white opacity-0 shadow-[0_6px_6px_1px_rgba(0,0,0,.3)] transition duration-300 ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in"
+                     style="top: calc(172px);">
+                    <div class="flex p-8 m-4 justify-center gap-x-[30px]">
+                        
+                        <!-- Category Section - Left Side -->
+                        <div class="w-full min-w-max max-w-[200px] pl-10 flex-auto">
+                            <p class="font-bold text-md text-navyBlue mb-4 uppercase">
+                                <a href="/search?sort=name-desc">
+                                    Shop All
+                                </a>
+                            </p>
+                            
+                            <ul class="grid grid-cols-[1fr] gap-3">
+                                @foreach ($rootCategories as $root)
+                                    @foreach ($root->children as $child)
+                                        <li>
+                                            <a href="{{ $child->url }}?best_seller=1" class="text-sm font-medium text-zinc-500">
+                                                {{ $child->name }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                @endforeach
+                            </ul>
+                        </div>
+
+                        <!-- Shop By Price - Center -->
+                        <div class="w-full min-w-max max-w-[200px] flex-auto">
+                            <p class="font-bold text-md text-navyBlue mb-4 uppercase">
+                                Shop By Price
+                            </p>
+                            
+                            <ul class="grid grid-cols-[1fr] gap-3">
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/search?best_seller=1&price=0%2C1500`">
+                                        Under ₹1,500
+                                    </a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/search?best_seller=1&price=1500%2C5000`">
+                                        ₹1,500 - ₹5,000
+                                    </a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/search?best_seller=1&price=5000%2C10000`">
+                                        ₹5,000 - ₹10,000
+                                    </a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/search?best_seller=1&price=10000%2C90000`">
+                                        Above ₹10,000
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Shop By Style - Right Side -->
+                        <div class="w-full min-w-max max-w-[200px] flex-auto">
+                            <p class="font-bold text-md text-navyBlue mb-4 uppercase">
+                                Shop By Style
+                            </p>
+                            
+                            <ul class="grid grid-cols-[1fr] gap-3">
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/search?best_seller=1&SBST=16`">
+                                        Everyday
+                                    </a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/search?best_seller=1&SBST=17`">
+                                        Office
+                                    </a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/search?best_seller=1&SBST=18`">
+                                        Party
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Shop By Style - Right Side -->
-            <div class="w-full min-w-max max-w-[200px] flex-auto">
-                <p class="font-bold text-lg text-navyBlue mb-4 uppercase">
-                    Shop By Style
-                </p>
-                
-                <ul class="grid grid-cols-[1fr] gap-3">
-                    <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`/@{{ category.name }}?style=everyday`">
-                            Everyday
-                        </a>
-                    </li>
-                    <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`/@{{ category.name }}?style=office`">
-                            Office
-                        </a>
-                    </li>
-                    <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`/@{{ category.name }}?style=party`">
-                            Party
-                        </a>
-                    </li>
-                </ul>
+            <!-- Dynamic Categories from API -->
+            <div class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
+                 v-for="category in categories">
+                <span>
+                    <a :href="category.url" class="inline-block px-5 uppercase">
+                        @{{ category.name }}
+                    </a>
+                </span>
+
+                <div class="pointer-events-none fixed left-0 right-0 z-[1] w-full bg-white opacity-0 shadow-[0_6px_6px_1px_rgba(0,0,0,.3)] transition duration-300 ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in"
+                     style="top: calc(172px);"
+                     v-if="category.children && category.children.length">
+                    <div class="flex p-8 m-4 justify-center gap-x-[30px]">
+                        <!-- Shop All Section - Left Side -->
+                        <div class="w-full min-w-max max-w-[200px] pl-10 flex-auto">
+                            <p class="font-bold text-md text-navyBlue mb-4 uppercase">
+                                <a :href="category.url">
+                                    Shop All @{{ category.name }}
+                                </a>
+                            </p>
+                            
+                            <!-- Categories List -->
+                            <div class="grid grid-cols-[1fr] content-start gap-2">
+                                <template v-for="secondLevelCategory in category.children">
+                                    <p class="text-sm font-medium text-zinc-500">
+                                        <a :href="secondLevelCategory.url">
+                                            @{{ secondLevelCategory.name }}
+                                        </a>
+                                    </p>
+
+                                    <ul class="grid grid-cols-[1fr] gap-3 mb-4"
+                                        v-if="secondLevelCategory.children && secondLevelCategory.children.length">
+                                        <li class="text-sm font-medium text-zinc-500"
+                                            v-for="thirdLevelCategory in secondLevelCategory.children">
+                                            <a :href="thirdLevelCategory.url">
+                                                @{{ thirdLevelCategory.name }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Shop By Price - Center -->
+                        <div class="w-full min-w-max max-w-[200px] flex-auto">
+                            <p class="font-bold text-md text-navyBlue mb-4 uppercase">
+                                Shop By Price
+                            </p>
+                            
+                            <ul class="grid grid-cols-[1fr] gap-3">
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/@{{ category.name }}?price=0-1500`">
+                                        Under ₹1,500
+                                    </a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/@{{ category.name }}?price=1500-5000`">
+                                        ₹1,500 - ₹5,000
+                                    </a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/@{{ category.name }}?price=5000-10000`">
+                                        ₹5,000 - ₹10,000
+                                    </a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/@{{ category.name }}?price=10000-above`">
+                                        Above ₹10,000
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Shop By Style - Right Side -->
+                        <div class="w-full min-w-max max-w-[200px] flex-auto">
+                            <p class="font-bold text-md text-navyBlue mb-4 uppercase">
+                                Shop By Style
+                            </p>
+                            
+                            <ul class="grid grid-cols-[1fr] gap-3">
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/@{{ category.name }}?style=everyday`">
+                                        Everyday
+                                    </a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/@{{ category.name }}?style=office`">
+                                        Office
+                                    </a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/@{{ category.name }}?style=party`">
+                                        Party
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-
-
-</div>
-    </div>
-</div>
-<!-- </div> -->
-</div>
-     
+        </div>
 
         <!-- Sidebar category layout -->
         <div v-else>
@@ -532,7 +686,7 @@
                                         class="flex items-center justify-center gap-2 focus:outline-none"
                                         aria-label="Go back"
                                     >
-                                        <span class="icon-arrow-left rtl:icon-arrow-right text-lg"></span>
+                                        <span class="icon-arrow-left rtl:icon-arrow-right text-md"></span>
 
                                         <p class="text-base font-medium text-black">
                                             @lang('shop::app.components.layouts.header.desktop.bottom.back-button')
