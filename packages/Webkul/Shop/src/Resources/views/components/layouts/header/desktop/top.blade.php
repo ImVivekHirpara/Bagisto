@@ -3,47 +3,11 @@
 <v-topbar>
     <!-- Shimmer Effect -->
     <div class="flex items-center justify-between border border-b border-l-0 border-r-0 border-t-0 px-16">
-        <!-- Currencies -->
-        <div class="flex w-20 items-center justify-between gap-2.5 py-3">
-            <div
-                class="shimmer h-6 w-12 rounded"
-                role="presentation"
-            >
-            </div>
-
-            <div
-                class="shimmer h-6 w-6 rounded"
-                role="presentation"
-            >
-            </div>
-        </div>
-
         <!-- Offers -->
         <div
             class="shimmer h-6 w-72 rounded py-3"
             role="presentation"
         >
-        </div>
-
-        <!-- Locales -->
-        <div class="flex w-32 items-center justify-between gap-2.5 py-3">
-            <div
-                class="shimmer h-6 w-6"
-                role="presentation"
-            >
-            </div>
-
-            <div
-                class="shimmer h-6 w-14 rounded"
-                role="presentation"
-            >
-            </div>
-
-            <div
-                class="shimmer h-6 w-6"
-                role="presentation"
-            >
-            </div>
         </div>
     </div>
 </v-topbar>
@@ -56,36 +20,6 @@
         id="v-topbar-template"
     >
         <div class="flex w-full items-center justify-between border border-b border-l-0 border-r-0 border-t-0 px-16 bg-black text-white">
-            {!! view_render_event('bagisto.shop.components.layouts.header.desktop.top.currency_switcher.before') !!}
-
-            <!-- Currency Switcher -->
-            <x-shop::dropdown position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'left' : 'right' }}">
-                <x-slot:toggle>
-                    <div
-                        class="flex cursor-pointer gap-2.5 py-3"
-                        role="button"
-                        tabindex="0"
-                        @click="currencyToggler = ! currencyToggler"
-                    >
-                        <span class="text-white">
-                            {{ core()->getCurrentCurrency()->symbol . ' ' . core()->getCurrentCurrencyCode() }}
-                        </span>
-
-                        <span
-                            class="text-2xl text-white"
-                            :class="{'icon-arrow-up': currencyToggler, 'icon-arrow-down': ! currencyToggler}"
-                            role="presentation"
-                        ></span>
-                    </div>
-                </x-slot>
-
-                <x-slot:content class="journal-scroll max-h-[500px] !p-0 bg-black text-white">
-                    <v-currency-switcher></v-currency-switcher>
-                </x-slot>
-            </x-shop::dropdown>
-
-            {!! view_render_event('bagisto.shop.components.layouts.header.desktop.top.currency_switcher.after') !!}
-
             <!-- Rotating Header Messages with Navigation Arrows -->
             <div class="flex items-center justify-center flex-1 py-3">
                 <div class="flex items-center justify-center gap-8 max-w-md w-full">
@@ -120,36 +54,6 @@
                     </button>
                 </div>
             </div>
-
-            {!! view_render_event('bagisto.shop.components.layouts.header.desktop.top.locale_switcher.before') !!}
-
-            <!-- Locales Switcher -->
-            <x-shop::dropdown position="bottom-{{ core()->getCurrentLocale()->direction === 'ltr' ? 'right' : 'left' }}">
-                <x-slot:toggle>
-                    <div
-                        class="flex cursor-pointer items-center gap-2.5 py-3"
-                        role="button"
-                        tabindex="0"
-                        @click="localeToggler = ! localeToggler"
-                    >
-                        <span class="text-white">
-                            {{ core()->getCurrentChannel()->locales()->orderBy('name')->where('code', app()->getLocale())->value('name') }}
-                        </span>
-
-                        <span
-                            class="text-2xl text-white"
-                            :class="{'icon-arrow-up': localeToggler, 'icon-arrow-down': ! localeToggler}"
-                            role="presentation"
-                        ></span>
-                    </div>
-                </x-slot>
-            
-                <x-slot:content class="journal-scroll max-h-[500px] !p-0 bg-black text-white">
-                    <v-locale-switcher></v-locale-switcher>
-                </x-slot>
-            </x-shop::dropdown>
-
-            {!! view_render_event('bagisto.shop.components.layouts.header.desktop.top.locale_switcher.after') !!}
         </div>
     </script>
 
