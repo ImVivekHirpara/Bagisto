@@ -16,7 +16,7 @@
     -->
   <!-- Left Search Bar Section -->
     <!-- Left Search Bar Section -->
-    <div class="flex items-center flex-1 max-w-[445px]">
+    <div class="flex items-center max-w-[245px]">
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.search_bar.before') !!}
  
         <!-- Search Bar Container -->
