@@ -246,6 +246,13 @@
     </div>
 </div>
 
+
+ @php
+    use Webkul\Category\Models\Category;
+
+    // Get all root categories except the main "Root" one (which is parent_id = 0)
+    $rootCategories = Category::where('parent_id', 1)->where('status', 1)->with('children')->get();
+@endphp
 @pushOnce('scripts')
     <script
         type="text/x-template"
@@ -300,10 +307,16 @@
                 </p>
                 <ul class="grid grid-cols-1 gap-3">
                     <li><a href="/shop-by/all-gifts" class="text-sm font-medium text-zinc-500">All Gifts</a></li>
-                    <li><a href="/shop-by/earrings" class="text-sm font-medium text-zinc-500">Earrings</a></li>
-                    <li><a href="/shop-by/rings" class="text-sm font-medium text-zinc-500">Rings</a></li>
-                    <li><a href="/shop-by/necklaces" class="text-sm font-medium text-zinc-500">Necklaces</a></li>
-                    <li><a href="/shop-by/bracelets" class="text-sm font-medium text-zinc-500">Bracelets</a></li>
+                     
+                    @foreach ($rootCategories as $root)
+                    @foreach ($root->children as $child)
+                        <li>
+                            <a href="{{ $child->url }}" class="text-sm font-medium text-zinc-500">
+                                {{ $child->name }}
+                            </a>
+                        </li>
+                    @endforeach
+                @endforeach
                 </ul>
             </div>
 
