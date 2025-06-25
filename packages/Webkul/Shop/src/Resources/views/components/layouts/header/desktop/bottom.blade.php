@@ -15,30 +15,10 @@
         additional levels are required, users can customize them according to their needs.
     -->
     <!-- Left Navigation Section -->
-    <div class="flex items-center gap-x-10 max-[1180px]:gap-x-5">
-        {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.before') !!}
-
-        <a
-            href="{{ route('shop.home.index') }}"
-            aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.bagisto')"
-        >
-            <img
-                src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
-                width="131"
-                height="29"
-                alt="{{ config('app.name') }}"
-            >
-        </a>
-
-        {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.after') !!}
-
-        
-
-        {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.category.after') !!}
-    </div>
+    
 
     <!-- Center Search Bar Section -->
-    <div class="flex items-center justify-center flex-1 px-8">
+    <div class="flex items-center gap-x-10 max-[1180px]:gap-x-5">
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.search_bar.before') !!}
 
         <!-- Search Bar Container -->
@@ -87,6 +67,28 @@
         {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.search_bar.after') !!}
     </div>
 
+    <div class="flex items-center justify-center flex-1 px-8">
+        {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.before') !!}
+
+        <a
+            href="{{ route('shop.home.index') }}"
+            aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.bagisto')"
+        >
+            <img
+                src="{{ core()->getCurrentChannel()->logo_url ?? bagisto_asset('images/logo.svg') }}"
+                width="131"
+                height="29"
+                alt="{{ config('app.name') }}"
+            >
+        </a>
+
+        {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.logo.after') !!}
+
+        
+
+        {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.category.after') !!}
+    </div>
+
     <!-- Right Navigation Section -->
     <div class="flex items-center gap-x-9 max-[1100px]:gap-x-6 max-lg:gap-x-8">
         <!-- Right Navigation Links -->
@@ -95,7 +97,7 @@
             {!! view_render_event('bagisto.shop.components.layouts.header.desktop.bottom.compare.before') !!}
 
             <!-- Compare -->
-            @if(core()->getConfigData('catalog.products.settings.compare_option'))
+            <!-- @if(core()->getConfigData('catalog.products.settings.compare_option'))
                 <a
                     href="{{ route('shop.compare.index') }}"
                     aria-label="@lang('shop::app.components.layouts.header.desktop.bottom.compare')"
@@ -105,7 +107,7 @@
                         role="presentation"
                     ></span>
                 </a>
-            @endif
+            @endif -->
 
              @if (core()->getConfigData('customer.settings.wishlist.wishlist_option'))
                             <a class="icon-heart inline-block cursor-pointer text-2xl" role="presentation" href="{{ route('shop.customers.account.wishlist.index') }}">
@@ -279,9 +281,63 @@
             class="flex items-center"
             v-else-if="'{{ core()->getConfigData('general.design.categories.category_view') }}' !== 'sidebar'"
         >
-        
+        <!-- SHOP BY TOP LEVEL ITEM -->
+<div
+    class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
+>
+    <span>
+        <a href="/shop-by" class="inline-block px-5 uppercase">
+            Shop By
+        </a>
+    </span>
 
-            <!-- Static Category: New In -->
+    <!-- DROPDOWN -->
+    <div
+        class="pointer-events-none fixed left-0 right-0 z-[1] w-full bg-white opacity-0 shadow-[0_6px_6px_1px_rgba(0,0,0,.3)] transition duration-300 ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in"
+        style="top: calc(171px + 2rem);"
+    >
+        <div class="flex justify-center gap-x-[30px] p-8 m-4">
+            <!-- COLUMN 1: SHOP ALL -->
+            <div class="w-full min-w-max max-w-[200px] flex-auto pl-10">
+                <p class="font-bold text-lg text-navyBlue mb-4 uppercase">
+                    SHOP ALL
+                </p>
+                <ul class="grid grid-cols-1 gap-3">
+                    <li><a href="/shop-by/all-gifts" class="text-sm font-medium text-zinc-500">All Gifts</a></li>
+                    <li><a href="/shop-by/earrings" class="text-sm font-medium text-zinc-500">Earrings</a></li>
+                    <li><a href="/shop-by/rings" class="text-sm font-medium text-zinc-500">Rings</a></li>
+                    <li><a href="/shop-by/necklaces" class="text-sm font-medium text-zinc-500">Necklaces</a></li>
+                    <li><a href="/shop-by/bracelets" class="text-sm font-medium text-zinc-500">Bracelets</a></li>
+                </ul>
+            </div>
+
+            <!-- COLUMN 2: FEATURED -->
+            <div class="w-full min-w-max max-w-[200px] flex-auto">
+                <p class="font-bold text-lg text-navyBlue mb-4 uppercase">
+                    FEATURED
+                </p>
+                <ul class="grid grid-cols-1 gap-3">
+                    <li><a href="/shop-by/back-in-stock" class="text-sm font-medium text-zinc-500">Back In Stock</a></li>
+                    <li><a href="/shop-by/leaving-soon" class="text-sm font-medium text-zinc-500">Leaving Soon</a></li>
+                    <li><a href="/shop-by/edits" class="text-sm font-medium text-zinc-500">Edits</a></li>
+                </ul>
+            </div>
+
+            <!-- COLUMN 3: COLLECTIONS -->
+            <div class="w-full min-w-max max-w-[200px] flex-auto">
+                <p class="font-bold text-lg text-navyBlue mb-4 uppercase">
+                    COLLECTIONS
+                </p>
+                <ul class="grid grid-cols-1 gap-3">
+                    <li><a href="/shop-by/signature-collection" class="text-sm font-medium text-zinc-500">Signature Collection</a></li>
+                    <li><a href="/shop-by/limited-edition" class="text-sm font-medium text-zinc-500">Limited Edition</a></li>
+                    <li><a href="/shop-by/seasonal" class="text-sm font-medium text-zinc-500">Seasonal</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
             <div
                 class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
             >
@@ -292,9 +348,22 @@
                 </span>
             </div>
             <div
+                class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
+            >
+                <span>
+                    <a href="/new-in" class="inline-block px-5 uppercase">
+                        Best Sellers
+                    </a>
+                </span>
+            </div>
+
+           
+            <div
     class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
     v-for="category in categories"
 >
+ <!-- Static Category: New In -->
+            
     <span>
         <a
             :href="category.url"
@@ -304,106 +373,110 @@
         </a>
     </span>
 
+
     <div
-        class="pointer-events-none fixed left-0 right-0 z-[1] w-full bg-white opacity-0 shadow-[0_6px_6px_1px_rgba(0,0,0,.3)] transition duration-300 ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in"
-        style="top: calc(170px + 2rem);"
-        v-if="category.children && category.children.length"
-    >
-        <!-- Added proper padding container -->
-        <!-- <div class="max-w-7xl mx-auto px-8 py-8"> -->
-            <div class="flex  p-8 m-4 justify-center gap-x-[30px]">
-            <!-- Shop All Section - Left Side -->
-            <div class="w-full min-w-max max-w-[200px] pl-10 flex-auto">
-                <p class="font-bold text-lg text-navyBlue mb-4 uppercase">
-                    <a :href="category.url">
-                        Shop All @{{ category.name }}
-                    </a>
-                </p>
-                
-                <!-- Categories List -->
-                <div class="grid grid-cols-[1fr] content-start gap-2">
-                    <template v-for="secondLevelCategory in category.children">
-                        <p class="text-sm font-medium text-zinc-500">
-                            <a :href="secondLevelCategory.url">
-                                @{{ secondLevelCategory.name }}
-                            </a>
-                        </p>
+    class="pointer-events-none fixed left-0 right-0 z-[1] w-full bg-white opacity-0 shadow-[0_6px_6px_1px_rgba(0,0,0,.3)] transition duration-300 ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in"
+    style="top: calc(171px + 2rem);"
+    v-if="category.children && category.children.length"
+>
+    <div class="p-8 m-4" style="display: grid; grid-template-columns: auto 150px 200px; gap: 50px; justify-content: center;">
+        <!-- Shop All Section - Auto width based on content -->
+        <div class="pl-10 pr-6">
+            <p class="font-bold text-lg text-navyBlue mb-4 uppercase whitespace-nowrap">
+                <a :href="category.url">
+                    Shop All @{{ category.name }}
+                </a>
+            </p>
+            
+            <!-- Categories List -->
+            <div class="grid grid-cols-[1fr] content-start gap-2">
+                <template v-for="secondLevelCategory in category.children">
+                    <p class="text-sm font-medium text-zinc-500 whitespace-nowrap">
+                        <a :href="secondLevelCategory.url">
+                            @{{ secondLevelCategory.name }}
+                        </a>
+                    </p>
 
-                        <ul
-                            class="grid grid-cols-[1fr] gap-3 mb-4"
-                            v-if="secondLevelCategory.children && secondLevelCategory.children.length"
+                    <ul
+                        class="grid grid-cols-[1fr] gap-3 mb-4"
+                        v-if="secondLevelCategory.children && secondLevelCategory.children.length"
+                    >
+                        <li
+                            class="text-sm font-medium text-zinc-500 whitespace-nowrap"
+                            v-for="thirdLevelCategory in secondLevelCategory.children"
                         >
-                            <li
-                                class="text-sm font-medium text-zinc-500"
-                                v-for="thirdLevelCategory in secondLevelCategory.children"
-                            >
-                                <a :href="thirdLevelCategory.url">
-                                    @{{ thirdLevelCategory.name }}
-                                </a>
-                            </li>
-                        </ul>
-                    </template>
-                </div>
+                            <a :href="thirdLevelCategory.url">
+                                @{{ thirdLevelCategory.name }}
+                            </a>
+                        </li>
+                    </ul>
+                </template>
             </div>
+        </div>
 
-            <!-- Shop By Price - Center -->
-            <div class="w-full min-w-max max-w-[200px] flex-auto">
-                <p class="font-bold text-lg text-navyBlue mb-4 uppercase">
-                    Shop By Price
-                </p>
-                
-                <ul class="grid grid-cols-[1fr] gap-3">
-                    <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`${category.url}?price=0%2C1500`">
-                            Under ₹1,500
-                        </a>
-                    </li>
-                    <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`${category.url}?price=1500%2C5000`">
-                            ₹1,500 - ₹5,000
-                        </a>
-                    </li>
-                    <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`${category.url}?price=5000%2C10000`">
-                            ₹5,000 - ₹10,000
-                        </a>
-                    </li>
-                    <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`${category.url}?price=10000%2C99999999`">
-                            Above ₹10,000
-                        </a>
-                    </li>
-                </ul>
-            </div>
+        <!-- Shop By Price - Center -->
+        <div>
+            <p class="font-bold text-lg text-navyBlue mb-4 uppercase">
+                Shop By Price
+            </p>
+            
+            <ul class="grid grid-cols-[1fr] gap-3">
+                <li class="text-sm font-medium text-zinc-500">
+                    <a :href="`${category.url}?price=0%2C1500`">
+                        Under ₹1,500
+                    </a>
+                </li>
+                <li class="text-sm font-medium text-zinc-500">
+                    <a :href="`${category.url}?price=1500%2C5000`">
+                        ₹1,500 - ₹5,000
+                    </a>
+                </li>
+                <li class="text-sm font-medium text-zinc-500">
+                    <a :href="`${category.url}?price=5000%2C10000`">
+                        ₹5,000 - ₹10,000
+                    </a>
+                </li>
+                @php
+$maxPrice = DB::table('products')
+    ->join('product_flat', 'products.id', '=', 'product_flat.product_id')
+    ->where('products.type', 'simple')
+    ->max('product_flat.price');
+@endphp
 
-            <!-- Shop By Style - Right Side -->
-            <div class="w-full min-w-max max-w-[200px] flex-auto">
-                <p class="font-bold text-lg text-navyBlue mb-4 uppercase">
-                    Shop By Style
-                </p>
-                
-                <ul class="grid grid-cols-[1fr] gap-3">
-                    <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`/@{{ category.name }}?style=everyday`">
-                            Everyday
-                        </a>
-                    </li>
-                    <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`/@{{ category.name }}?style=office`">
-                            Office
-                        </a>
-                    </li>
-                    <li class="text-sm font-medium text-zinc-500">
-                        <a :href="`/@{{ category.name }}?style=party`">
-                            Party
-                        </a>
-                    </li>
-                </ul>
-            </div>
+                <li class="text-sm font-medium text-zinc-500">
+                    <a :href="`${category.url}?price=10000%2C{{ $maxPrice }}`">
+                        Above ₹10,000
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-
-</div>
+        <!-- Shop By Style - Right Side -->
+        <div>
+            <p class="font-bold text-lg text-navyBlue mb-4 uppercase">
+                Shop By Style
+            </p>
+            
+            <ul class="grid grid-cols-[1fr] gap-3">
+                <li class="text-sm font-medium text-zinc-500">
+                    <a :href="`${category.url}?style=10`">
+                        Everyday
+                    </a>
+                </li>
+                <li class="text-sm font-medium text-zinc-500">
+                    <a :href="`${category.url}?style=11`">
+                        Office
+                    </a>
+                </li>
+                <li class="text-sm font-medium text-zinc-500">
+                    <a :href="`${category.url}?style=12`">
+                        Party
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
+</div>
 </div>
 <!-- </div> -->
 </div>
@@ -740,7 +813,7 @@
                 this.index = (this.index - 1 + this.messages.length) % this.messages.length;
             },
             startAutoSlide() {
-                this.intervalId = setInterval(this.next, 3000); // Every 5 seconds
+                this.intervalId = setInterval(this.next, 4000); // Every 4 seconds
             },
             stopAutoSlide() {
                 if (this.intervalId) clearInterval(this.intervalId);
