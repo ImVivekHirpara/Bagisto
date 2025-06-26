@@ -356,42 +356,12 @@
                                     {!! $product->short_description !!}
                                 </p>
 
-                                <!-- Pincode Availability Checker -->
-                                <div class="mt-6 border-t border-gray-200 pt-6">
-                                    <p class="text-base font-medium mb-2">Enter 6-digit pincode</p>
-                                    <div class="flex items-center gap-2">
-                                        <div class="flex-1">
-                                            <input 
-                                                type="text" 
-                                                v-model="pincode" 
-                                                placeholder="e.g. 560001" 
-                                                class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                                @input="validatePincode"
-                                                maxlength="6"
-                                            >
-                                        </div>
-                                        <button 
-                                            type="button" 
-                                            @click="checkPincode" 
-                                            class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                                            :disabled="pincode.length !== 6"
-                                            :class="{'opacity-50 cursor-not-allowed': pincode.length !== 6}"
-                                        >
-                                            Check
-                                        </button>
-                                    </div>
-                                    <div class="mt-2 text-sm" v-if="pincodeMessage">
-                                        <span :class="{'text-green-600': pincodeAvailable, 'text-red-600': !pincodeAvailable}">
-                                            @{{ pincodeMessage }}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="w-full mx-auto pr-[90px] mt-[30px] max-[1180px]:px-5">
-                                    <div class="grid grid-cols-3 gap-x-8 mt-4 max-w-max">
+                       
+                                <div class="w-full mx-auto pr-[90px] mt-[50px] max-[1180px]:px-5">
+                                    <div class="flex flex-wrap mt-2 gap-x-6 gap-y-3">
                                         @foreach ($customAttributeValues as $customAttributeValue)
                                             @if (!empty($customAttributeValue['value']) && in_array(strtolower($customAttributeValue['label']), ['purity', 'gross weight', 'net weight']))
-                                                <div class="space-y-1">
+                                                <div class="space-y-1 min-w-[100px]">
                                                     <p class="text-base font-medium text-black">
                                                         {!! $customAttributeValue['label'] !!}
                                                     </p>
@@ -423,6 +393,10 @@
                                         @endforeach
                                     </div>
                                 </div>
+
+
+
+
 
                                 {!! view_render_event('bagisto.shop.products.short_description.after', ['product' => $product]) !!}
 
@@ -601,47 +575,6 @@
                         } else {
                             window.location.href = "{{ route('shop.customer.session.index')}}";
                         }
-                    },
-
-                    validatePincode() {
-                        // Remove any non-digit characters
-                        this.pincode = this.pincode.replace(/\D/g, '');
-                        
-                        // Truncate to 6 digits if longer
-                        if (this.pincode.length > 6) {
-                            this.pincode = this.pincode.substring(0, 6);
-                        }
-                        
-                        // Clear message when user is typing
-                        if (this.pincode.length !== 6) {
-                            this.pincodeMessage = '';
-                        }
-                    },
-                    
-                    checkPincode() {
-                        if (this.pincode.length !== 6) {
-                            this.pincodeMessage = 'Please enter a valid 6-digit pincode';
-                            this.pincodeAvailable = false;
-                            return;
-                        }
-
-                        // Here you would typically make an API call to check pincode availability
-                        // For demo purposes, we'll simulate a response
-                        this.pincodeMessage = 'Checking availability...';
-                        
-                        // Simulate API call with timeout
-                        setTimeout(() => {
-                            // This is just a simulation - replace with actual API call
-                            const availablePincodes = ['560001', '560002', '560003', '110001', '400001'];
-                            
-                            if (availablePincodes.includes(this.pincode)) {
-                                this.pincodeMessage = 'Delivery available to this pincode';
-                                this.pincodeAvailable = true;
-                            } else {
-                                this.pincodeMessage = 'Delivery not available to this pincode';
-                                this.pincodeAvailable = false;
-                            }
-                        }, 1000);
                     },
 
                     addToCompare(productId) {

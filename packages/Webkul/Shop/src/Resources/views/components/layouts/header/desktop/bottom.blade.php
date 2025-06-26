@@ -327,7 +327,7 @@
                 </p>
                 <ul class="grid grid-cols-1 gap-3">
                     <li><a href="/shop-by/back-in-stock" class="text-sm font-medium text-zinc-500">Back In Stock</a></li>
-                    <li><a href="/shop-by/leaving-soon" class="text-sm font-medium text-zinc-500">Leaving Soon</a></li>
+                    <li><a href="/leaving-soon" class="text-sm font-medium text-zinc-500">Leaving Soon</a></li>
                     <li><a href="/shop-by/edits" class="text-sm font-medium text-zinc-500">Edits</a></li>
                 </ul>
             </div>
@@ -356,14 +356,97 @@
                     </a>
                 </span>
             </div>
-            <div
-                class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue"
-            >
+                        <!-- Static Category: Best Seller with Dropdown -->
+            <div class="group relative flex h-[77px] items-center border-b-4 border-transparent hover:border-b-4 hover:border-navyBlue">
                 <span>
-                    <a href="/new-in" class="inline-block px-5 uppercase">
-                        Best Sellers
+                    <a href="/BST11109=1&sort=name-asc" class="inline-block px-5 uppercase">
+                        BEST SEllERS
                     </a>
                 </span>
+
+                
+                <!-- SHOP BY Dropdown -->
+                <div class="pointer-events-none fixed left-0 right-0 z-[1] w-full bg-white opacity-0 shadow-[0_6px_6px_1px_rgba(0,0,0,.3)] transition duration-300 ease-out group-hover:pointer-events-auto group-hover:opacity-100 group-hover:duration-200 group-hover:ease-in"
+                     style="top: calc(171px + 2rem);">
+                    <div class="flex p-8 m-4 justify-center gap-x-[30px]">
+                        
+                        <!-- Category Section - Left Side -->
+                        <div class="w-full min-w-max max-w-[200px] pl-10 flex-auto">
+                            <p class="font-bold text-md text-navyBlue mb-4 uppercase">
+                                <a href="/search?sort=name-desc">
+                                    Shop All
+                                </a>
+                            </p>
+                            
+                            <ul class="grid grid-cols-[1fr] gap-3">
+                                @foreach ($rootCategories as $root)
+                                    @foreach ($root->children as $child)
+                                        <li>
+                                            <a href="{{ $child->url }}?BST11109=1" class="text-sm font-medium text-zinc-500">
+                                                {{ $child->name }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                @endforeach
+                            </ul>
+                        </div>
+
+                        <!-- Shop By Price - Center -->
+                        <div class="w-full min-w-max max-w-[200px] flex-auto">
+                            <p class="font-bold text-md text-navyBlue mb-4 uppercase">
+                                Shop By Price
+                            </p>
+                            
+                            <ul class="grid grid-cols-[1fr] gap-3">
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/search?BST11109=1&price=0%2C1500`">
+                                        Under ₹1,500
+                                    </a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/search?BST11109=1&price=1500%2C5000`">
+                                        ₹1,500 - ₹5,000
+                                    </a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/search?BST11109=1&price=5000%2C10000`">
+                                        ₹5,000 - ₹10,000
+                                    </a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/search?BST11109=1&price=10000%2C90000`">
+                                        Above ₹10,000
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Shop By Style - Right Side -->
+                        <div class="w-full min-w-max max-w-[200px] flex-auto">
+                            <p class="font-bold text-md text-navyBlue mb-4 uppercase">
+                                Shop By Style
+                            </p>
+                            
+                            <ul class="grid grid-cols-[1fr] gap-3">
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/search?BST11109=1&SBST=16`">
+                                        Everyday
+                                    </a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/search?BST11109=1&SBST=17`">
+                                        Office
+                                    </a>
+                                </li>
+                                <li class="text-sm font-medium text-zinc-500">
+                                    <a :href="`/search?BST11109=1&SBST=18`">
+                                        Party
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
 
            
