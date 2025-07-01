@@ -69,7 +69,8 @@
 
                     <!-- Product New Badge -->
                     <p
-                        class="absolute top-1.5 inline-block rounded-[44px] bg-navyBlue px-2.5 text-sm text-white max-sm:rounded-l-none max-sm:rounded-r-xl max-sm:px-2 max-sm:py-0.5 max-sm:text-xs ltr:left-1.5 max-sm:ltr:left-0 rtl:right-1.5 max-sm:rtl:right-0"
+                        class="absolute top-1.5 inline-block bg-yellow-100 px-3 py-1 text-black max-sm:px-2 max-sm:py-0.5 ltr:left-1.5 max-sm:ltr:left-0 rtl:right-1.5 max-sm:rtl:right-0"
+                        style="font-size: 12px; font-weight: 600; letter-spacing: 0.5px; background-color: rgb(230 224 205)"
                         v-else-if="product.is_new"
                     >
                         @lang('shop::app.components.products.card.new')
@@ -77,10 +78,11 @@
 
                     <!-- Product Best Seller Badge -->
                     <p
-                        class="absolute top-1.5 inline-block rounded-[44px] bg-navyBlue px-2.5 text-sm text-white max-sm:rounded-l-none max-sm:rounded-r-xl max-sm:px-2 max-sm:py-0.5 max-sm:text-xs ltr:left-1.5 max-sm:ltr:left-0 rtl:right-1.5 max-sm:rtl:right-0"
+                        class="absolute top-1.5 inline-block bg-yellow-100 px-3 py-1 text-black max-sm:px-2 max-sm:py-0.5 ltr:left-1.5 max-sm:ltr:left-0 rtl:right-1.5 max-sm:rtl:right-0"
+                        style="font-size: 12px; font-weight: 500; letter-spacing: 0.8px; background-color: rgb(230 224 205);"
                         v-else-if="product.best_seller"
                     >
-                        BEST SELLERS
+                        BEST SELLER
                     </p>
 
                     <div class="opacity-0 transition-all duration-300 group-hover:bottom-0 group-hover:opacity-100 max-lg:opacity-100 max-sm:opacity-100">
