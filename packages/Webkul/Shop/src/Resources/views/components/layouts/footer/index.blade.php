@@ -22,8 +22,17 @@
 @endphp
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
+<!-- Footer Banner Section -->
+<div class="w-full mt-9 max-sm:mt-10 overflow-hidden" style="height: calc(100vw * 0.25); max-height: 500px;">
+    <img 
+        src="{{ asset('themes/shop/default/build/assets/newsletter-banner_2000x.webp') }}" 
+        alt="Footer Banner" 
+        class="w-full h-full object-cover"
+        style="object-position: center; margin-top: -100px; margin-bottom: -100px; height: calc(100% + 200px);"
+    />
+</div>
 
-<footer class="mt-9 bg-lightOrange max-sm:mt-10">
+<footer class="bg-lightOrange">
     <div class="flex justify-between gap-x-6 gap-y-8 p-[60px] max-1060:flex-col-reverse max-md:gap-5 max-md:p-8 max-sm:px-4 max-sm:py-5">
         <!-- For Desktop View -->
         <div class="flex flex-wrap items-start gap-24 max-1180:gap-6 max-1060:hidden">

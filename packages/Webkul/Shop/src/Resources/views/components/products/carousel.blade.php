@@ -87,23 +87,25 @@
         }
 
         .navigation-arrows {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 15;
-            cursor: pointer;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
-        }
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        /* Ensure they are within image area */
+        margin-top: -20px; /* optional fine-tune */
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 15;
+        cursor: pointer;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+    }
 
         .navigation-arrows:hover {
             background: rgba(255, 255, 255, 1);
@@ -112,11 +114,11 @@
         }
 
         .navigation-arrows.left {
-            left: 0px;
+            left: -22px; /* move closer or overlap slightly into image */
         }
 
         .navigation-arrows.right {
-            right: 0px;
+            right: -22px;
         }
 
         .navigation-arrows.hidden {
@@ -139,6 +141,22 @@
                 font-size: 22px !important;
             }
         }
+
+        @media (max-width: 768px) {
+        .navigation-arrows {
+            width: 36px;
+            height: 36px;
+        }
+
+        .navigation-arrows.left {
+            left: 4px;
+        }
+
+        .navigation-arrows.right {
+            right: 4px;
+        }
+    }
+
     </style>
 
     <script
