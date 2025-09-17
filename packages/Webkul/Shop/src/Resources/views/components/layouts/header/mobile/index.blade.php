@@ -226,6 +226,10 @@
             @if (core()->getConfigData('catalog.products.settings.image_search'))
                 @include('shop::search.images.index')
             @endif
+
+            @if (core()->getConfigData('catalog.products.settings.qr_scanner') !== false)
+                @include('shop::search.qr-scanner.index')
+            @endif
         </div>
     </form>
 

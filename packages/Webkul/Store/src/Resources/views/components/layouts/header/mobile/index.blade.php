@@ -275,6 +275,8 @@
                 aria-label="Search"
             >
             </button>
+
+            @include('store::search.qr-scanner.index')
         </div>
     </form>
 </div>
