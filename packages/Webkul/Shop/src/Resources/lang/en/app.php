@@ -897,6 +897,22 @@ return [
                 'analyzed-keywords' => 'Analyzed Keywords:',
             ],
         ],
+
+        'qr-scanner' => [
+            'scan'         => 'Scan QR Code',
+            'stop'         => 'Stop Scanner',
+            'title'        => 'QR Code Scanner',
+            'close'        => 'Close',
+            'instructions' => 'Point your camera at a QR code to scan it',
+
+            'errors' => [
+                'general'            => 'An error occurred while starting the scanner',
+                'camera-permission'  => 'Camera permission denied. Please allow camera access to use the QR scanner.',
+                'no-camera'          => 'No camera found on this device.',
+                'not-supported'      => 'QR scanning is not supported on this device or browser.',
+                'no-camera-support'  => 'Camera not supported on this device.',
+            ],
+        ],
     ],
 
     'compare' => [
