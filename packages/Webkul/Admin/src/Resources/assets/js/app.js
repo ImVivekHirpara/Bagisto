@@ -4,6 +4,11 @@
 import.meta.glob(["../images/**", "../fonts/**"]);
 
 /**
+ * Import barcode scanner styles
+ */
+import "../css/barcode-scanner.css";
+
+/**
  * Main vue bundler.
  */
 import { createApp } from "vue/dist/vue.esm-bundler";
@@ -35,6 +40,13 @@ window.app = createApp({
         },
     },
 });
+
+/**
+ * Global components registration.
+ */
+import BarcodeScanner from "./components/BarcodeScanner";
+
+app.component('barcode-scanner', BarcodeScanner);
 
 /**
  * Global plugins registration.

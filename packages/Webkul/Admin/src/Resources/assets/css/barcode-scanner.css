@@ -1,0 +1,252 @@
+/* Barcode Scanner Styles */
+.barcode-scanner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.barcode-scanner-modal {
+    background: white;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.barcode-scanner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+.barcode-scanner-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+    color: #6b7280;
+    font-size: 1.5rem;
+}
+
+.close-button:hover {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+
+.barcode-scanner-content {
+    padding: 20px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Scanner Container */
+.scanner-container {
+    width: 100%;
+    text-align: center;
+}
+
+#qr-reader {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+/* Override html5-qrcode styles for better iOS experience */
+#qr-reader video {
+    border-radius: 8px !important;
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+#qr-reader__scan_region {
+    border-radius: 8px !important;
+}
+
+#qr-reader__dashboard_section {
+    padding: 10px 0 !important;
+}
+
+#qr-reader__dashboard_section_csr {
+    margin: 10px 0 !important;
+}
+
+#qr-reader__dashboard_section_csr > button {
+    background-color: #3b82f6 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+    margin: 0 5px !important;
+    transition: background-color 0.2s !important;
+}
+
+#qr-reader__dashboard_section_csr > button:hover {
+    background-color: #2563eb !important;
+}
+
+/* Instructions */
+.scanner-instructions {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.scanner-instructions p {
+    color: #6b7280;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Error Message */
+.error-message {
+    text-align: center;
+    color: #dc2626;
+    padding: 20px;
+}
+
+.error-message p {
+    margin-bottom: 15px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.retry-button {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.retry-button:hover {
+    background-color: #2563eb;
+}
+
+/* Loading Spinner */
+.scanner-loading {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #e5e7eb;
+    border-top: 3px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.scanner-loading p {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+    .barcode-scanner-overlay {
+        padding: 10px;
+    }
+    
+    .barcode-scanner-modal {
+        max-height: 95vh;
+    }
+    
+    .barcode-scanner-header {
+        padding: 15px;
+    }
+    
+    .barcode-scanner-content {
+        padding: 15px;
+        min-height: 250px;
+    }
+    
+    .barcode-scanner-header h3 {
+        font-size: 1.125rem;
+    }
+}
+
+/* iOS Safari specific adjustments */
+@supports (-webkit-touch-callout: none) {
+    #qr-reader video {
+        transform: none !important;
+        object-fit: cover !important;
+    }
+    
+    .barcode-scanner-modal {
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .barcode-scanner-modal {
+        background: #1f2937;
+        color: #f9fafb;
+    }
+    
+    .barcode-scanner-header {
+        background: #374151;
+        border-bottom-color: #4b5563;
+    }
+    
+    .barcode-scanner-header h3 {
+        color: #f9fafb;
+    }
+    
+    .close-button {
+        color: #d1d5db;
+    }
+    
+    .close-button:hover {
+        background-color: #4b5563;
+        color: #f9fafb;
+    }
+    
+    .scanner-instructions p {
+        color: #d1d5db;
+    }
+    
+    .scanner-loading p {
+        color: #d1d5db;
+    }
+}

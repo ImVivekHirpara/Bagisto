@@ -225,25 +225,44 @@
                             @lang('admin::app.sales.orders.create.cart.items.search.title')
                         </p>
 
-                        <div class="relative w-full">
-                            <input
-                                type="text"
-                                class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"
-                                placeholder="Search by name"
-                                v-model.lazy="searchTerm"
-                                v-debounce="500"
-                            />
-
-                            <template v-if="isSearching">
-                                <img
-                                    class="absolute top-2.5 h-5 w-5 animate-spin ltr:right-3 rtl:left-3"
-                                    src="{{ bagisto_asset('images/spinner.svg') }}"
+                        <div class="flex gap-2">
+                            <div class="relative flex-1">
+                                <input
+                                    type="text"
+                                    class="block w-full rounded-lg border bg-white py-1.5 leading-6 text-gray-600 transition-all hover:border-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 ltr:pl-3 ltr:pr-10 rtl:pl-10 rtl:pr-3"
+                                    placeholder="Search by name or scan barcode"
+                                    v-model.lazy="searchTerm"
+                                    v-debounce="500"
                                 />
-                            </template>
 
-                            <template v-else>
-                                <span class="icon-search pointer-events-none absolute top-1.5 flex items-center text-2xl ltr:right-3 rtl:left-3"></span>
-                            </template>
+                                <template v-if="isSearching">
+                                    <img
+                                        class="absolute top-2.5 h-5 w-5 animate-spin ltr:right-3 rtl:left-3"
+                                        src="{{ bagisto_asset('images/spinner.svg') }}"
+                                    />
+                                </template>
+
+                                <template v-else>
+                                    <span class="icon-search pointer-events-none absolute top-1.5 flex items-center text-2xl ltr:right-3 rtl:left-3"></span>
+                                </template>
+                            </div>
+
+                            <button
+                                type="button"
+                                class="flex items-center justify-center px-3 py-1.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                @click="openBarcodeScanner"
+                                title="Scan Barcode"
+                            >
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 7V5C3 3.89543 3.89543 3 5 3H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M17 3H19C20.1046 3 21 3.89543 21 5V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M21 17V19C21 20.1046 20.1046 21 19 21H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M7 21H5C3.89543 21 3 20.1046 3 19V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9 12H9.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M15 12H15.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 9V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </x-slot>
@@ -371,6 +390,14 @@
                     </div>
                 </x-slot>
             </x-admin::drawer>
+
+            <!-- Barcode Scanner Component -->
+            <barcode-scanner
+                :visible="showBarcodeScanner"
+                :on-scan-success="handleBarcodeSuccess"
+                :on-scan-failure="handleBarcodeFailure"
+                :on-close="closeBarcodeScanner"
+            />
         </div>
     </script>
 
@@ -397,6 +424,8 @@
                     isSearching: false,
 
                     isUpdating: false,
+
+                    showBarcodeScanner: false,
                 };
             },
 
@@ -497,6 +526,33 @@
                     });
 
                     return qty;
+                },
+
+                openBarcodeScanner() {
+                    this.showBarcodeScanner = true;
+                },
+
+                closeBarcodeScanner() {
+                    this.showBarcodeScanner = false;
+                },
+
+                handleBarcodeSuccess(decodedText, decodedResult) {
+                    // Set the search term to the scanned barcode/QR code
+                    this.searchTerm = decodedText;
+                    
+                    // Trigger search with the scanned result
+                    this.search();
+                    
+                    // Show success message
+                    this.$emitter.emit('add-flash', { 
+                        type: 'success', 
+                        message: `Barcode scanned successfully: ${decodedText}` 
+                    });
+                },
+
+                handleBarcodeFailure(error) {
+                    // Optionally handle scan failures
+                    console.warn('Barcode scan failed:', error);
                 }
             }
         });
