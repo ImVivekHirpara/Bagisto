@@ -61,16 +61,16 @@
             <!-- Scanner Modal -->
             <div
                 v-if="isScanning"
-                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75"
+                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4"
                 @click.self="stopScanner"
             >
-                <div class="relative mx-4 max-w-lg w-full bg-white rounded-lg p-6">
+                <div class="relative w-full max-w-lg bg-white rounded-lg p-6 max-h-[90vh] overflow-y-auto">
                     <!-- Modal Header -->
                     <div class="mb-4 flex items-center justify-between">
                         <h3 class="text-lg font-semibold">@lang('shop::app.search.qr-scanner.title')</h3>
                         <button
                             @click="stopScanner"
-                            class="text-gray-400 hover:text-gray-600"
+                            class="text-gray-400 hover:text-gray-600 p-2"
                             aria-label="@lang('shop::app.search.qr-scanner.close')"
                         >
                             <span class="icon-close text-xl"></span>
@@ -81,13 +81,13 @@
                     <div class="relative">
                         <div
                             id="qr-scanner"
-                            class="w-full rounded-lg overflow-hidden"
+                            class="w-full rounded-lg overflow-hidden bg-gray-100"
                             style="min-height: 300px;"
                         ></div>
                         
                         <!-- Scanner overlay with instructions -->
                         <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <div class="w-48 h-48 border-2 border-white rounded-lg shadow-lg"></div>
+                            <div class="w-48 h-48 border-2 border-white rounded-lg shadow-lg opacity-50"></div>
                         </div>
                     </div>
 
