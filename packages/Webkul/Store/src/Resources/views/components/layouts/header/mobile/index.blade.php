@@ -269,13 +269,6 @@
                 required
             >
 
-            <button
-                type="button"
-                class="icon-camera flex items-center absolute top-[12px] right-[12px] pr-3 text-[22px]"
-                aria-label="Search"
-            >
-            </button>
-
             @include('store::search.qr-scanner.index')
         </div>
     </form>

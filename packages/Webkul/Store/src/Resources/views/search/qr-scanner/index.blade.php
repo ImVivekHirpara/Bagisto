@@ -16,7 +16,7 @@
             <!-- Scanner Toggle Button -->
             <label
                 class="icon-camera flex items-center absolute top-[10px] ltr:right-[12px] rtl:left-[12px] pr-3 text-[22px] cursor-pointer"
-                aria-label="QR Scanner"
+                aria-label="@lang('store::app.search.qr-scanner.scan')"
                 @click="toggleScanner"
                 v-if="!isLoading && !isScanning"
             >
@@ -54,7 +54,7 @@
                 class="icon-close flex items-center absolute top-[10px] ltr:right-[12px] rtl:left-[12px] pr-3 text-[22px] cursor-pointer text-red-600"
                 @click="stopScanner"
                 v-if="isScanning && !isLoading"
-                aria-label="Stop Scanner"
+                aria-label="@lang('store::app.search.qr-scanner.stop')"
             >
             </label>
 
@@ -67,11 +67,11 @@
                 <div class="relative mx-4 max-w-lg w-full bg-white rounded-lg p-6">
                     <!-- Modal Header -->
                     <div class="mb-4 flex items-center justify-between">
-                        <h3 class="text-lg font-semibold">QR Code Scanner</h3>
+                        <h3 class="text-lg font-semibold">@lang('store::app.search.qr-scanner.title')</h3>
                         <button
                             @click="stopScanner"
                             class="text-gray-400 hover:text-gray-600"
-                            aria-label="Close"
+                            aria-label="@lang('store::app.search.qr-scanner.close')"
                         >
                             <span class="icon-close text-xl"></span>
                         </button>
@@ -93,7 +93,7 @@
 
                     <!-- Instructions -->
                     <p class="mt-4 text-sm text-gray-600 text-center">
-                        Point your camera at a QR code to scan it
+                        @lang('store::app.search.qr-scanner.instructions')
                     </p>
 
                     <!-- Error Message -->
@@ -258,16 +258,16 @@
                 handleError(error) {
                     console.error('QR Scanner error:', error);
                     
-                    let message = 'An error occurred while starting the scanner';
+                    let message = '@lang("store::app.search.qr-scanner.errors.general")';
                     
                     if (error.name === 'NotAllowedError' || error.message.includes('Permission denied')) {
-                        message = 'Camera permission denied. Please allow camera access to use the QR scanner.';
+                        message = '@lang("store::app.search.qr-scanner.errors.camera-permission")';
                     } else if (error.name === 'NotFoundError' || error.message.includes('No camera found')) {
-                        message = 'No camera found on this device.';
+                        message = '@lang("store::app.search.qr-scanner.errors.no-camera")';
                     } else if (error.name === 'NotSupportedError') {
-                        message = 'QR scanning is not supported on this device or browser.';
+                        message = '@lang("store::app.search.qr-scanner.errors.not-supported")';
                     } else if (error.message.includes('Camera not supported')) {
-                        message = 'Camera not supported on this device.';
+                        message = '@lang("store::app.search.qr-scanner.errors.no-camera-support")';
                     } else if (error.message) {
                         message = error.message;
                     }

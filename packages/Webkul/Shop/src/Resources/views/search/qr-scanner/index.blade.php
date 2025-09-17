@@ -258,16 +258,16 @@
                 handleError(error) {
                     console.error('QR Scanner error:', error);
                     
-                    let message = 'An error occurred while starting the scanner';
+                    let message = '@lang("shop::app.search.qr-scanner.errors.general")';
                     
                     if (error.name === 'NotAllowedError' || error.message.includes('Permission denied')) {
-                        message = 'Camera permission denied. Please allow camera access to use the QR scanner.';
+                        message = '@lang("shop::app.search.qr-scanner.errors.camera-permission")';
                     } else if (error.name === 'NotFoundError' || error.message.includes('No camera found')) {
-                        message = 'No camera found on this device.';
+                        message = '@lang("shop::app.search.qr-scanner.errors.no-camera")';
                     } else if (error.name === 'NotSupportedError') {
-                        message = 'QR scanning is not supported on this device or browser.';
+                        message = '@lang("shop::app.search.qr-scanner.errors.not-supported")';
                     } else if (error.message.includes('Camera not supported')) {
-                        message = 'Camera not supported on this device.';
+                        message = '@lang("shop::app.search.qr-scanner.errors.no-camera-support")';
                     } else if (error.message) {
                         message = error.message;
                     }
